@@ -1,0 +1,8 @@
+# Firebase CLI debug logs (auto-generated, contains auth info)
+firebase-debug.log
+firebase-debug.*.log
+
+# Environment files (secrets)
+.env
+.env.local
+.env.*.local
