@@ -34,11 +34,12 @@ Write this content to `pete/README.md`:
 ```markdown
 # Pete Loop — Quick Start
 
+> ⚠️ **Sandbox mode is enabled** via `.claude/settings.json` — this is required for safe AFK execution. If you already had a settings.json, verify it includes `"sandbox": { "enabled": true }`.
+
 ## First time setup
 1. Fill in `pete/spec.md` — run `/pete-loop:spec` for AI-guided help
 2. Generate `pete/plan.md` — run `/pete-loop:plan` after spec is done
-3. Run `./pete/pete-once.sh` to test one iteration interactively
-4. Run `./pete/pete.sh 15` to run the full loop and go AFK 🌿
+3. Run `./pete/pete.sh 5` to start the loop (low iteration count is a good first run) 🌿
 
 ## Files
 - `spec.md` — What you're building (fill this in first)
@@ -47,7 +48,7 @@ Write this content to `pete/README.md`:
 - `progress.txt` — Rolling log appended by Claude each iteration
 - `human-todo.md` — Tasks the loop paused on (needs your input)
 - `pete.sh` — The main loop script (`./pete/pete.sh 15`)
-- `pete-once.sh` — Single interactive iteration (`./pete/pete-once.sh`)
+- `pete-once.sh` — Single interactive iteration, useful for watching one iteration hands-on
 
 ## Tuning tips
 - Tasks too big? Split anything with more than 2 acceptance criteria.
@@ -61,7 +62,8 @@ Write this content to `pete/README.md`:
 First check: `test -f .claude/settings.json`
 
 - If the file **does NOT exist**: run `mkdir -p .claude`, then read `${CLAUDE_SKILL_DIR}/templates/settings.json` and write it to `.claude/settings.json`.
-- If the file **already exists**: leave it untouched. Tell the user it already exists and was not overwritten.
+- If the file **already exists**: leave it untouched. Warn the user with this message:
+  > ⚠️ `.claude/settings.json` already exists — it was not overwritten. **Pete Loop requires sandbox mode to be enabled** for safe AFK execution. Make sure your settings.json includes `"sandbox": { "enabled": true }`. See the template at `${CLAUDE_SKILL_DIR}/templates/settings.json` for the full recommended config.
 
 ## Step 5: Make scripts executable
 
@@ -71,6 +73,7 @@ Run: `chmod +x pete/pete.sh pete/pete-once.sh`
 
 Tell the user:
 - ✅ Pete Loop scaffold created successfully
+- ✅ `.claude/settings.json` created with sandbox mode enabled — safe for AFK execution
 - Next: open `pete/spec.md` and fill it in, or run `/pete-loop:spec` for a guided spec-building session
 - Then run `/pete-loop:plan` to generate the phased task list from the spec
-- Then run `./pete/pete-once.sh` to test the first iteration
+- Then run `./pete/pete.sh <N>` to start the loop (e.g. `./pete/pete.sh 5` for a short first run)

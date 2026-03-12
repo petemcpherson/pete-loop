@@ -29,7 +29,7 @@ Every task must use this JSON structure:
 - Each task should be completable in one focused AI session
 - Each task typically touches ≤5 files — if it would touch many more, split it
 - If you'd write more than 2 acceptance criteria, split the task
-- Aim for 8–20 tasks per phase — smaller is better than larger
+- Aim for 12–20 tasks per phase — smaller is better than larger
 - Order tasks within each phase by dependency (blocking tasks first)
 - Flag tasks that need human input (credentials, manual service setup, etc.)
   with a note in the description and set `"passes": "blocked"` if the prerequisite isn't done yet
