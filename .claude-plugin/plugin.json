@@ -1,0 +1,12 @@
+{
+  "name": "pete-loop",
+  "description": "Autonomous build loop for Claude Code. Implements one task per fresh context window from a structured spec → plan → loop workflow. Built for Pro subscription users.",
+  "version": "2.0.0",
+  "author": {
+    "name": "Pete McPherson",
+    "url": "https://github.com/petemcpherson"
+  },
+  "homepage": "https://github.com/petemcpherson/pete-loop",
+  "repository": "https://github.com/petemcpherson/pete-loop",
+  "license": "MIT"
+}
