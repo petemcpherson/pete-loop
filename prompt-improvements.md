@@ -1,3 +1,7 @@
+# Just some notes Pete is taking
+
+## PROMPT.md
+
 If doing any UI or design work, please load the brand design skill and the frontend design skill.
 
 Use context7 if you need to research documentation.
