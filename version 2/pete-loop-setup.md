@@ -393,11 +393,11 @@ Otherwise, output nothing. The next iteration will handle the next task.
 ## File 4: `plan.md`
 
 All phases and tasks live in this single file. No separate phase files.
-Keep the Phase Overview table up to date as phases complete.
+The number of phases, their names, and all tasks must be derived entirely from `spec.md` — do not invent phases or copy the structure below. This is a format example only.
 
 ```markdown
 <!-- plan.md -->
-# [Your Project Name] — Build Plan
+# [Project Name] — Build Plan
 
 **Spec reference:** `spec.md`
 **Progress log:** `progress.txt`
@@ -406,99 +406,30 @@ Keep the Phase Overview table up to date as phases complete.
 
 ## Phase Overview
 
+<!-- One row per phase — derived from spec.md. Do not copy these phase names. -->
 | Phase | Description | Status |
 |-------|-------------|--------|
-| 1 | Project Setup & Foundation | 🔴 pending |
-| 2 | Core Features | 🔴 pending |
-| 3 | UI & Polish | 🔴 pending |
-| 4 | Testing & Launch Prep | 🔴 pending |
+| 1 | [Phase name from spec] | 🔴 pending |
 
 ---
 
 ## Tech Stack
 
-- Frontend: [e.g. SvelteKit + Tailwind]
-- Backend: [e.g. Firebase]
-- Auth: [e.g. Firebase Auth]
-- Hosting: [e.g. Vercel]
+<!-- Populated from spec.md — list only what this project actually uses. -->
 
 ---
 
-## Phase 1: Project Setup & Foundation
+<!-- EXAMPLE PHASE — replace entirely with phases derived from spec.md -->
+## Phase 1: [Name from spec]
 **Status:** 🔴 pending
 
 ```json
 [
   {
     "id": "1.1",
-    "category": "setup",
-    "description": "Initialize project structure and install core dependencies",
-    "acceptance": "bun run dev starts without errors. package.json lists all required dependencies.",
-    "passes": false
-  },
-  {
-    "id": "1.2",
-    "category": "setup",
-    "description": "Configure environment variables and create .env.example",
-    "acceptance": ".env.example lists all required variables with empty values. App loads config without errors.",
-    "passes": false
-  },
-  {
-    "id": "1.3",
-    "category": "setup",
-    "description": "Set up git with appropriate .gitignore and make initial commit",
-    "acceptance": ".gitignore excludes .env and other sensitive files. Git history has one clean initial commit.",
-    "passes": false
-  }
-]
-```
-
----
-
-## Phase 2: Core Features
-**Status:** 🔴 pending
-
-```json
-[
-  {
-    "id": "2.1",
-    "category": "feature",
-    "description": "...",
-    "acceptance": "...",
-    "passes": false
-  }
-]
-```
-
----
-
-## Phase 3: UI & Polish
-**Status:** 🔴 pending
-
-```json
-[
-  {
-    "id": "3.1",
-    "category": "ui",
-    "description": "...",
-    "acceptance": "...",
-    "passes": false
-  }
-]
-```
-
----
-
-## Phase 4: Testing & Launch Prep
-**Status:** 🔴 pending
-
-```json
-[
-  {
-    "id": "4.1",
-    "category": "testing",
-    "description": "...",
-    "acceptance": "...",
+    "category": "setup|feature|ui|testing",
+    "description": "Single sentence describing what to build or configure",
+    "acceptance": "Observable outcome that proves this task is done",
     "passes": false
   }
 ]
