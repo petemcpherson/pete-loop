@@ -4,7 +4,7 @@
 
 It is designed for vibe coders who want reliable, incremental progress while they are away from the keyboard ("go touch grass mode").
 
-Full tutorial video here: (https://youtu.be/nJscwBE0NA4)[https://youtu.be/nJscwBE0NA4]
+Full tutorial video here: https://youtu.be/nJscwBE0NA4
 
 
 ## What This Project Includes
@@ -114,11 +114,17 @@ This creates:
 
 ### 2) Build a real spec
 
+**YOU should spend a good deal of time on this step!**
+
+Create a spec.md file with your notes, preferences, opinions, features, sub-features, everything.
+
+You can also write out a bit and THEN run...
+
 ```shell
 /pete-loop:spec
 ```
 
-Answer the questions carefully. Better input here = better autonomous output later.
+Claude Code will ask you clarifying questions. Answer the questions carefully. Better input here = better autonomous output later.
 
 ### 3) Generate phased tasks
 
@@ -129,6 +135,8 @@ Answer the questions carefully. Better input here = better autonomous output lat
 This creates a single `pete/plan.md` with phases and task objects.
 
 ### 4) Test one interactive iteration
+
+**NOTE**: I don't actually do this.
 
 ```bash
 ./pete/pete-once.sh
@@ -153,30 +161,6 @@ Use a small number first (`5`) until you trust the flow for that project.
 - `pete/human-todo.md` - tasks blocked on human action
 - `pete/pete.sh` - autonomous loop runner
 - `pete/pete-once.sh` - single interactive run
-
----
-
-## Task Model (Version 2)
-
-Each task is a JSON object in `plan.md`:
-
-```json
-{
-  "id": "1.2",
-  "category": "setup|feature|ui|testing",
-  "description": "Single sentence: what to build or configure",
-  "acceptance": "Observable outcome that proves this is done",
-  "passes": false
-}
-```
-
-`passes` can be:
-
-- `false` - not done
-- `true` - completed
-- `"blocked"` - requires human action before retrying
-
-Keep tasks small enough to finish in one focused iteration.
 
 ---
 

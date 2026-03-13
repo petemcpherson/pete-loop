@@ -41,10 +41,6 @@ Implement the chosen task fully:
 - No TODO stubs
 - Complete implementations only
 
-**If working on UI/UX/design:** load both the "brand design" skill and the "frontend design" skill before writing any UI code.
-
-**If you need to research documentation:** use the Context7 MCP server.
-
 ---
 
 ## Step 4: Verify

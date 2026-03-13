@@ -2,9 +2,15 @@
 
 ## PROMPT.md
 
-If doing any UI or design work, please load the brand design skill and the frontend design skill.
+I recommend adding information about YOUR skills, subagents, and MCP servers in the PROMPT.md file.
 
-Use context7 if you need to research documentation.
+I personally use the following in PROMPT.md (line 44):
+
+**If working on UI/UX/design:** load both the "brand design" skill and the "frontend design" skill before writing any UI code.
+
+**If you need to research documentation:** use the Context7 MCP server.
+
+*obviously if you're not using these skills/MCPs, substitute in your own!*
 
 ## Spec-building prompts:
 
@@ -16,3 +22,7 @@ feature breakdown, the purpose of the app, etc. analyze those docs and create a 
 please analyze the @context/spec.md file. Is it missing anything? Do you have any clarifying           
 questions? The next step is building an implementation plan, so this document needs to ACCURATELY        
 reflect my preferences and decisions
+
+
+
+
