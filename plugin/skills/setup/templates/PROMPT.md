@@ -74,10 +74,8 @@ Do NOT rewrite task descriptions, reorder tasks, or restructure the file in any 
 Append a new dated entry using APPEND only — do not rewrite existing entries:
 
 ```
-[YYYY-MM-DD HH:MM] Phase X — Task X.Y: [task description]
-  - What was implemented
-  - Commands run and results
-  - Any learnings or notes for future iterations
+[X.Y done YYYY-MM-DD] Brief description. ⚠️  Learning: [only if there's a genuine gotcha,
+else omit]
 ```
 
 ---
