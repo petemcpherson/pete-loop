@@ -12,6 +12,14 @@ I personally use the following in PROMPT.md (line 44):
 
 *obviously if you're not using these skills/MCPs, substitute in your own!*
 
+### git commits
+
+In step 7, you might add a new line like...
+
+*Do NOT add a "co-authored by..." attribution.*
+
+Else you might see commit messages with "Co-Authored by Claude 4.6 Sonnet", etc.
+
 ## Spec-building prompts:
 
 I'm building a [what you're building]. please analyze [notes or spec file] and help me  
