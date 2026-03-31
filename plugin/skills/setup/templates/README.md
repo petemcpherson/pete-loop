@@ -70,13 +70,23 @@ See [`Resources/prompt-improvements.md`](https://github.com/petemcpherson/pete-l
 
 ## Pete Runs — Starting a New Build Phase
 
-Each time you use Pete Loop to build something — an initial app, a new feature, a v2 — that's a **Pete Run**. Each run lives in its own subfolder so context stays clean and history is preserved.
+Each time you use Pete Loop to build something new — a feature, a v2, a new phase — that's a **Pete Run**. Each run lives in its own subfolder with isolated context.
 
-```bash
-mkdir pete/my-new-feature
-# add spec.md, run /pete-loop:plan, copy PROMPT.md and update its @ paths
-./pete/pete.sh my-new-feature 15
+Start one with a single command:
+
+```shell
+/pete-loop:new-run
 ```
+
+It asks for a name, scaffolds the subfolder, and wires up all the paths in `PROMPT.md` automatically. Then:
+
+```shell
+/pete-loop:spec   # write the spec (will ask which run)
+/pete-loop:plan   # generate the plan (will ask which run)
+./pete/pete.sh 15 v2
+```
+
+Subfolder is the **second** arg — `./pete/pete.sh 15` still works as normal for the root run.
 
 Full tutorial: see **Pete Runs** section in the [main README](https://github.com/petemcpherson/pete-loop#pete-runs).
 

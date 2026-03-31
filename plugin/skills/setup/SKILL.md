@@ -45,6 +45,5 @@ Run: `chmod +x pete/pete.sh pete/pete-once.sh`
 Tell the user:
 - ✅ Pete Loop scaffold created successfully
 - ✅ `.claude/settings.json` created with sandbox mode enabled — safe for AFK execution
-- Next: open `pete/spec.md` and fill it in, or run `/pete-loop:spec` for a guided spec-building session
-- Then run `/pete-loop:plan` to generate the phased task list from the spec
-- Then run `./pete/pete.sh <N>` to start the loop (e.g. `./pete/pete.sh 5` for a short first run)
+- **First run:** open `pete/spec.md` and fill it in (or run `/pete-loop:spec`), then `/pete-loop:plan`, then `./pete/pete.sh 5`
+- **Future runs (new feature, v2, etc.):** run `/pete-loop:new-run` — it scaffolds a named subfolder with all files ready to go. Each isolated build phase is called a **Pete Run**.

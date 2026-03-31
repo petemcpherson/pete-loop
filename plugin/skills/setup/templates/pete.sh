@@ -2,8 +2,9 @@
 
 # -----------------------------------------------
 # THE PETE LOOP
-# Usage: ./pete/pete.sh <max_iterations>
+# Usage: ./pete/pete.sh <max_iterations> [subfolder]
 # Example: ./pete/pete.sh 15
+# Example: ./pete/pete.sh 15 v2
 # -----------------------------------------------
 
 set -uo pipefail
@@ -13,12 +14,25 @@ trap 'echo ""; echo "🛑 Pete Loop interrupted."; kill 0; exit 130' INT
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 if [ -z "${1:-}" ]; then
-  echo "Usage: ./pete/pete.sh <max_iterations>"
+  echo "Usage: ./pete/pete.sh <max_iterations> [subfolder]"
   echo "Example: ./pete/pete.sh 15"
+  echo "Example: ./pete/pete.sh 15 v2"
   exit 1
 fi
 
 MAX_ITERATIONS=$1
+SUBFOLDER="${2:-}"
+
+if [ -n "$SUBFOLDER" ]; then
+  PROMPT_FILE="$SCRIPT_DIR/$SUBFOLDER/PROMPT.md"
+else
+  PROMPT_FILE="$SCRIPT_DIR/PROMPT.md"
+fi
+
+if [ ! -f "$PROMPT_FILE" ]; then
+  echo "❌ PROMPT.md not found at: $PROMPT_FILE"
+  exit 1
+fi
 
 # -----------------------------------------------
 # USAGE CHECK
@@ -60,7 +74,11 @@ check_usage() {
 # MAIN LOOP
 # -----------------------------------------------
 echo ""
-echo "🚀 Pete Loop starting — max $MAX_ITERATIONS iterations"
+if [ -n "$SUBFOLDER" ]; then
+  echo "🚀 Pete Loop starting — max $MAX_ITERATIONS iterations [run: $SUBFOLDER]"
+else
+  echo "🚀 Pete Loop starting — max $MAX_ITERATIONS iterations"
+fi
 echo "========================================"
 
 for ((i=1; i<=MAX_ITERATIONS; i++)); do
@@ -70,7 +88,7 @@ for ((i=1; i<=MAX_ITERATIONS; i++)); do
 
   check_usage
 
-  result=$(claude -p "$(cat "$SCRIPT_DIR/PROMPT.md")" --output-format text 2>&1) || true
+  result=$(claude -p "$(cat "$PROMPT_FILE")" --output-format text 2>&1) || true
 
   echo "$result"
 

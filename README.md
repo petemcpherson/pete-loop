@@ -25,8 +25,9 @@ Then run `/reload-plugins` to apply the update.
 ## What This Project Includes
 
 - A Claude Code plugin named `pete-loop`
-- Three plugin skills:
-  - `/pete-loop:setup` - scaffold the loop files into any project
+- Four plugin skills:
+  - `/pete-loop:setup` - scaffold the loop files into any project (first time)
+  - `/pete-loop:new-run` - scaffold a new Pete Run subfolder for a new feature, v2, etc.
   - `/pete-loop:spec` - guided session to produce a strong `spec.md`
   - `/pete-loop:plan` - generate phased, task-by-task `plan.md` from your spec
 - A "version 2" operating model (single `plan.md`, one-task loop, strict stop gate, progress logging)
@@ -91,6 +92,7 @@ claude plugin install pete-loop@petemcpherson-claude-plugins
 After install, available commands are:
 
 - `/pete-loop:setup`
+- `/pete-loop:new-run`
 - `/pete-loop:spec`
 - `/pete-loop:plan`
 
@@ -165,6 +167,12 @@ This creates a single `pete/plan.md` with phases and task objects.
 
 Use a small number first (`5`) until you trust the flow for that project.
 
+For a **Pete Run** (new feature, v2, etc.), pass the subfolder name as the second arg:
+
+```bash
+./pete/pete.sh 15 v2
+```
+
 ---
 
 ## Core Files You Will Use
@@ -174,7 +182,7 @@ Use a small number first (`5`) until you trust the flow for that project.
 - `pete/PROMPT.md` - loop policy and hard stop behavior
 - `pete/progress.txt` - append-only run history
 - `pete/human-todo.md` - tasks blocked on human action
-- `pete/pete.sh` - autonomous loop runner
+- `pete/pete.sh` - autonomous loop runner (`./pete/pete.sh 15` or `./pete/pete.sh 15 v2`)
 - `pete/pete-once.sh` - single interactive run
 
 ---
@@ -280,49 +288,22 @@ pete/
     └── PROMPT.md
 ```
 
-### Starting a New Pete Run (Quick Steps)
+### Starting a New Pete Run
 
-**1. Create a subfolder for the new run**
-
-```bash
-mkdir pete/user-auth
-```
-
-**2. Add your `spec.md`**
-
-Write it directly or run `/pete-loop:spec` for a guided session. Scope it to just this run — not the whole app.
-
-**3. Generate `plan.md`**
+The easiest way — one command does everything:
 
 ```shell
-/pete-loop:plan
+/pete-loop:new-run
 ```
 
-Save the output to `pete/user-auth/plan.md`.
+This skill asks for a run name (e.g. `v2`, `user-auth`), then scaffolds the full subfolder: `spec.md` starter, `progress.txt`, `human-todo.md`, and a `PROMPT.md` with all paths already updated. No manual copying or path-editing required.
 
-**4. Copy `PROMPT.md` and update the file references**
+Then:
 
-```bash
-cp pete/PROMPT.md pete/user-auth/PROMPT.md
-```
-
-Then open `pete/user-auth/PROMPT.md` and update the `@` paths at the top:
-
-```
-@pete/user-auth/plan.md @pete/user-auth/progress.txt @pete/user-auth/human-todo.md
-```
-
-**5. Create `progress.txt` and `human-todo.md`**
-
-```bash
-echo "# Pete Loop — Progress Log\n[Run started]" > pete/user-auth/progress.txt
-touch pete/user-auth/human-todo.md
-```
-
-**6. Run it**
-
-```bash
-./pete/pete.sh user-auth 15
+```shell
+/pete-loop:spec    # guided spec session — it will ask which run
+/pete-loop:plan    # generates plan.md — it will ask which run
+./pete/pete.sh 15 user-auth
 ```
 
 Monitor:
@@ -331,32 +312,12 @@ Monitor:
 tail -f pete/user-auth/progress.txt
 ```
 
-### Updating `pete.sh` to Accept a Subfolder Arg
-
-If your `pete.sh` doesn't already support a subfolder argument, update it:
-
-```bash
-# Usage: ./pete/pete.sh <subfolder> <max_iterations>
-# Example: ./pete/pete.sh user-auth 15
-
-SUBFOLDER=$1
-MAX_ITERATIONS=$2
-
-# ...in the loop:
-result=$(claude -p "$(cat "$SCRIPT_DIR/$SUBFOLDER/PROMPT.md")" --output-format text 2>&1) || true
-```
-
-Same for `pete-once.sh`:
-
-```bash
-# Usage: ./pete/pete-once.sh <subfolder>
-SUBFOLDER=$1
-claude "$(cat "pete/$SUBFOLDER/PROMPT.md")"
-```
-
 ### (Optional) Archive Your Original Files
 
 ```bash
 mkdir pete/initial-build
 mv pete/spec.md pete/plan.md pete/progress.txt pete/human-todo.md pete/PROMPT.md pete/initial-build/
 ```
+
+> The subfolder arg is the **second** arg — iterations always comes first.
+> `./pete/pete.sh 15` still works exactly as before.

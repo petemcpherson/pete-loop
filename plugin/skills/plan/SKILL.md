@@ -7,7 +7,19 @@ allowed-tools: Read, Write
 
 # Pete Loop — Generate plan.md
 
-Read `pete/spec.md` and generate a complete `pete/plan.md` with all phases and tasks.
+## Step 0: Determine target folder
+
+Before anything else, ask the user:
+
+> "Is this plan for your main `pete/` folder (first-time setup), or for a **Pete Run** subfolder (new feature, v2, etc.)? If a Pete Run, what's the subfolder name (e.g. `v2`, `user-auth`)?"
+
+Use their answer to set the paths for this session:
+- Root: read `pete/spec.md`, write `pete/plan.md`
+- Pete Run: read `pete/<RUN_NAME>/spec.md`, write `pete/<RUN_NAME>/plan.md`
+
+---
+
+Read the spec file and generate a complete plan file with all phases and tasks.
 
 ## Task format
 
@@ -38,7 +50,7 @@ Every task must use this JSON structure:
 
 ## Output format
 
-Write the full file to `pete/plan.md`:
+Write the full file to the target plan path determined in Step 0:
 
 ```markdown
 <!-- plan.md -->
@@ -87,5 +99,5 @@ Write the full file to `pete/plan.md`:
 
 Tell the user:
 - plan.md is ready with [N] phases and [total] tasks
-- Next: run `./pete/pete-once.sh` to test the first iteration interactively
-- Then run `./pete/pete.sh 15` to go AFK
+- If this is the root `pete/` folder: run `./pete/pete-once.sh` to test one iteration, then `./pete/pete.sh 15` to go AFK
+- If this is a Pete Run (`<RUN_NAME>`): run `./pete/pete-once.sh <RUN_NAME>` to test, then `./pete/pete.sh 15 <RUN_NAME>` to go AFK

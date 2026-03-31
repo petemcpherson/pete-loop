@@ -6,7 +6,21 @@ disable-model-invocation: true
 
 # Pete Loop — Build spec.md
 
-Help the user build a complete `pete/spec.md` for their project.
+## Step 0: Determine target folder
+
+Before anything else, ask the user:
+
+> "Is this spec for your main `pete/` folder (first-time setup), or for a **Pete Run** subfolder (new feature, v2, etc.)? If a Pete Run, what's the subfolder name (e.g. `v2`, `user-auth`)?"
+
+Use their answer to set the target path for this session:
+- Root: `pete/spec.md`
+- Pete Run: `pete/<RUN_NAME>/spec.md`
+
+Refer to this as `<SPEC_PATH>` for the rest of this skill.
+
+---
+
+Help the user build a complete spec at `<SPEC_PATH>`.
 
 ## Your approach
 
@@ -87,8 +101,8 @@ Help the user build a complete `pete/spec.md` for their project.
 [What this app explicitly does NOT do]
 ```
 
-5. **Write the completed spec** to `pete/spec.md`. If `pete/spec.md` doesn't exist yet, create it. If it already exists, ask the user before overwriting.
+5. **Write the completed spec** to `<SPEC_PATH>`. If the file doesn't exist yet, create it. If it already exists, ask the user before overwriting.
 
 6. **After writing**, tell the user:
-   - spec.md is ready
-   - Next step: run `/pete-loop:plan` to generate the phased build plan
+   - spec.md is ready at `<SPEC_PATH>`
+   - Next step: run `/pete-loop:plan` — it will ask which folder to use (give it the same answer you gave here)
