@@ -44,6 +44,16 @@ Use this as the recommended shape:
 }
 ```
 
+## Customizing PROMPT.md for your setup
+
+`PROMPT.md` is the instruction set Claude reads on every loop iteration — it's worth tailoring it to your workflow. Common additions:
+
+- **Skills & subagents** — tell Claude when to invoke specific skills (e.g. *"If working on UI, load the frontend-design skill before writing any code"*)
+- **MCP servers** — reference tools you have installed (e.g. *"Use Context7 for documentation research"*)
+- **Commit style** — add a line like *"Do NOT add a Co-Authored-By attribution"* if you don't want that in your git history
+
+See [`Resources/prompt-improvements.md`](https://github.com/petemcpherson/pete-loop/blob/main/Resources/prompt-improvements.md) for concrete examples and copy-paste snippets.
+
 ## First time setup
 1. Fill in `pete/spec.md` — run `/pete-loop:spec` for AI-guided help
 2. Generate `pete/plan.md` — run `/pete-loop:plan` after spec is done
@@ -57,6 +67,18 @@ Use this as the recommended shape:
 - `human-todo.md` — Tasks the loop paused on (needs your input)
 - `pete.sh` — The main loop script (`./pete/pete.sh 15`)
 - `pete-once.sh` — Single interactive iteration, useful for watching one iteration hands-on
+
+## Pete Runs — Starting a New Build Phase
+
+Each time you use Pete Loop to build something — an initial app, a new feature, a v2 — that's a **Pete Run**. Each run lives in its own subfolder so context stays clean and history is preserved.
+
+```bash
+mkdir pete/my-new-feature
+# add spec.md, run /pete-loop:plan, copy PROMPT.md and update its @ paths
+./pete/pete.sh my-new-feature 15
+```
+
+Full tutorial: see **Pete Runs** section in the [main README](https://github.com/petemcpherson/pete-loop#pete-runs).
 
 ## Tuning tips
 - Tasks too big? Split anything with more than 2 acceptance criteria.

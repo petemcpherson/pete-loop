@@ -254,27 +254,25 @@ MIT - see `LICENSE`.
 
 ---
 
-## Adding Features to an Existing Pete Loop Project
+## Pete Runs — Adding Features, v2, or New Build Phases
 
-Once you've used Pete Loop to build a project, you'll eventually want to come back and add new features. The naive approach — deleting everything and regenerating from scratch — works, but it has a real cost: all the context from the original build (completed tasks, progress notes, learnings) gets fed into the agent's context window on every iteration, even though none of it is relevant to the new work.
+Each time you use Pete Loop to build something — an initial app, a new feature, a v2 — that's a **Pete Run**. Every run gets its own subfolder inside `pete/` with its own isolated context.
 
-A cleaner pattern: **one subfolder per build run**. Each feature addition gets its own isolated directory inside `pete/`, with its own spec, plan, and loop files. The shared scripts at the root of `pete/` are parameterized to point at whichever subfolder you're working on.
-
-This keeps context tight and focused, preserves history naturally, and makes it easy to run or review any past build.
+This keeps each run focused (no stale history bleeding in), preserves all past runs naturally, and scales to any number of future builds.
 
 ### Folder Structure
 
 ```
 pete/
-├── pete.sh               ← updated to accept a subfolder arg
+├── pete.sh               ← accepts a subfolder arg
 ├── pete-once.sh          ← same
-├── initial-build/        ← your original run (archived, never touched again)
+├── initial-build/        ← your first Pete Run (archived)
 │   ├── spec.md
 │   ├── plan.md
 │   ├── progress.txt
 │   ├── human-todo.md
 │   └── PROMPT.md
-└── user-auth/            ← new feature run
+└── user-auth/            ← a new Pete Run
     ├── spec.md
     ├── plan.md
     ├── progress.txt
@@ -282,11 +280,60 @@ pete/
     └── PROMPT.md
 ```
 
-### Step-by-Step: Adding a Feature
+### Starting a New Pete Run (Quick Steps)
 
-**Step 1: Update `pete.sh` and `pete-once.sh` to accept a subfolder argument**
+**1. Create a subfolder for the new run**
 
-Open `pete/pete.sh` and change the script to accept a subfolder as the first argument (with max iterations as the second). Replace the hardcoded `PROMPT.md` path with a dynamic one:
+```bash
+mkdir pete/user-auth
+```
+
+**2. Add your `spec.md`**
+
+Write it directly or run `/pete-loop:spec` for a guided session. Scope it to just this run — not the whole app.
+
+**3. Generate `plan.md`**
+
+```shell
+/pete-loop:plan
+```
+
+Save the output to `pete/user-auth/plan.md`.
+
+**4. Copy `PROMPT.md` and update the file references**
+
+```bash
+cp pete/PROMPT.md pete/user-auth/PROMPT.md
+```
+
+Then open `pete/user-auth/PROMPT.md` and update the `@` paths at the top:
+
+```
+@pete/user-auth/plan.md @pete/user-auth/progress.txt @pete/user-auth/human-todo.md
+```
+
+**5. Create `progress.txt` and `human-todo.md`**
+
+```bash
+echo "# Pete Loop — Progress Log\n[Run started]" > pete/user-auth/progress.txt
+touch pete/user-auth/human-todo.md
+```
+
+**6. Run it**
+
+```bash
+./pete/pete.sh user-auth 15
+```
+
+Monitor:
+
+```bash
+tail -f pete/user-auth/progress.txt
+```
+
+### Updating `pete.sh` to Accept a Subfolder Arg
+
+If your `pete.sh` doesn't already support a subfolder argument, update it:
 
 ```bash
 # Usage: ./pete/pete.sh <subfolder> <max_iterations>
@@ -295,92 +342,21 @@ Open `pete/pete.sh` and change the script to accept a subfolder as the first arg
 SUBFOLDER=$1
 MAX_ITERATIONS=$2
 
-# ...then in the loop:
+# ...in the loop:
 result=$(claude -p "$(cat "$SCRIPT_DIR/$SUBFOLDER/PROMPT.md")" --output-format text 2>&1) || true
 ```
 
-Update `pete-once.sh` similarly:
+Same for `pete-once.sh`:
 
 ```bash
 # Usage: ./pete/pete-once.sh <subfolder>
-# Example: ./pete/pete-once.sh user-auth
-
 SUBFOLDER=$1
 claude "$(cat "pete/$SUBFOLDER/PROMPT.md")"
 ```
 
-**Step 2: (Optional) Rename your original files into a subfolder**
-
-If you want to keep the original build archived cleanly:
+### (Optional) Archive Your Original Files
 
 ```bash
 mkdir pete/initial-build
 mv pete/spec.md pete/plan.md pete/progress.txt pete/human-todo.md pete/PROMPT.md pete/initial-build/
 ```
-
-This is optional — you can leave the original files in place and just create subfolders going forward.
-
-**Step 3: Create a subfolder for the new feature**
-
-```bash
-mkdir pete/user-auth
-```
-
-**Step 4: Write a focused `spec.md` for just the new feature**
-
-Create `pete/user-auth/spec.md`. This spec only needs to cover the new feature — not the whole app. You can reference what already exists for context, but keep it scoped.
-
-Use `/pete-loop:spec` if you want a guided session, or write it directly.
-
-**Step 5: Generate a `plan.md` for the new feature**
-
-Open a fresh Claude conversation (outside the loop). Share:
-- `pete/user-auth/spec.md`
-- Brief context about what's already built (or point Claude at the existing codebase)
-
-Ask Claude to generate a `plan.md` using the standard task format. The generated plan should only cover tasks for the new feature — Claude will search the existing codebase during the loop to avoid re-implementing anything.
-
-Save the output to `pete/user-auth/plan.md`.
-
-**Step 6: Create the remaining loop files**
-
-```bash
-# progress.txt
-echo "# progress.txt
-# Pete Loop — Progress & Learnings Log
-# Agent appends dated entries here. Do not manually edit.
-
-[Project started]
-" > pete/user-auth/progress.txt
-
-# human-todo.md — copy the header from the original or paste it fresh
-```
-
-**Step 7: Create `PROMPT.md` for this subfolder**
-
-Copy `pete/PROMPT.md` (or `pete/initial-build/PROMPT.md`) into `pete/user-auth/PROMPT.md`, then update the `@` file references at the top to point to the subfolder:
-
-```
-@pete/user-auth/plan.md @pete/user-auth/progress.txt @pete/user-auth/human-todo.md
-```
-
-Everything else in PROMPT.md stays the same.
-
-**Step 8: Run the loop**
-
-```bash
-./pete/pete.sh user-auth 15
-```
-
-Monitor progress:
-
-```bash
-tail -f pete/user-auth/progress.txt
-```
-
-### Why This Works
-
-- The agent only loads context relevant to the current feature — no completed tasks, no stale progress entries from months ago
-- The original build is preserved and human-readable in its own subfolder
-- Each future feature addition follows the same pattern: new subfolder, new spec, new plan, run the loop
-- You can always go back and read `pete/initial-build/progress.txt` to see the learnings from the original build
