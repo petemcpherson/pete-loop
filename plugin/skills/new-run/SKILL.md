@@ -2,7 +2,7 @@
 name: new-run
 description: Scaffold a new Pete Run subfolder inside pete/. Use this when starting a new feature, v2, or any new build phase on an existing Pete Loop project. Creates the subfolder with all required files (PROMPT.md with correct paths, spec.md starter, progress.txt, human-todo.md).
 disable-model-invocation: true
-allowed-tools: Read, Write, Bash(mkdir *), Bash(test *), Bash(ls *)
+allowed-tools: "Read, Write, Bash(mkdir *), Bash(test *), Bash(ls *)"
 ---
 
 # Pete Loop — New Run Setup
