@@ -18,13 +18,13 @@ If it does not exist, stop and tell the user:
 
 ## Step 2: Update system scripts
 
-Read each file from `${CLAUDE_SKILL_DIR}/templates/` and write it to the project at the destination shown:
+Read each file from `${CLAUDE_SKILL_DIR}/../setup/templates/` and write it to the project at the destination shown:
 
 | Source (read from) | Destination (write to) |
 |---|---|
-| `${CLAUDE_SKILL_DIR}/templates/pete.sh` | `pete/pete.sh` |
-| `${CLAUDE_SKILL_DIR}/templates/pete-once.sh` | `pete/pete-once.sh` |
-| `${CLAUDE_SKILL_DIR}/templates/README.md` | `pete/README.md` |
+| `${CLAUDE_SKILL_DIR}/../setup/templates/pete.sh` | `pete/pete.sh` |
+| `${CLAUDE_SKILL_DIR}/../setup/templates/pete-once.sh` | `pete/pete-once.sh` |
+| `${CLAUDE_SKILL_DIR}/../setup/templates/README.md` | `pete/README.md` |
 
 After writing, run: `chmod +x pete/pete.sh pete/pete-once.sh`
 
@@ -38,7 +38,7 @@ Tell the user:
 >
 > Reply **yes** to overwrite, or **no** to keep your current version.
 
-- If **yes**: read `${CLAUDE_SKILL_DIR}/templates/PROMPT.md` and write it to `pete/PROMPT.md`.
+- If **yes**: read `${CLAUDE_SKILL_DIR}/../setup/templates/PROMPT.md` and write it to `pete/PROMPT.md`.
 - If **no**: leave `pete/PROMPT.md` untouched.
 
 ## Step 4: Confirm and summarize
