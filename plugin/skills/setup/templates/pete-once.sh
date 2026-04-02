@@ -2,6 +2,7 @@
 
 # -----------------------------------------------
 # PETE ONCE — Human-in-the-loop single iteration
+# Plugin version: 2.2.2
 # Usage: ./pete/pete-once.sh
 # Usage: ./pete/pete-once.sh [subfolder]
 # Example: ./pete/pete-once.sh

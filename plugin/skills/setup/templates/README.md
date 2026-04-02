@@ -90,6 +90,18 @@ Subfolder is the **second** arg — `./pete/pete.sh 15` still works as normal fo
 
 Full tutorial: see **Pete Runs** section in the [main README](https://github.com/petemcpherson/pete-loop#pete-runs).
 
+## Updating Pete Loop
+
+When you update the pete-loop plugin, your project's scripts (`pete.sh`, `pete-once.sh`) are **not** automatically updated — they were copied here at setup time.
+
+To pull the latest scripts into this project after a plugin update, run from Claude Code:
+
+```shell
+/pete-loop:update
+```
+
+This updates `pete.sh`, `pete-once.sh`, and this `README.md`. It will ask before touching `PROMPT.md`, and never overwrites your `spec.md`, `plan.md`, `progress.txt`, or `human-todo.md`.
+
 ## Tuning tips
 - Tasks too big? Split anything with more than 2 acceptance criteria.
 - Claude working on multiple tasks? Verify the ⛔ STOP gate in PROMPT.md is intact.

@@ -20,13 +20,24 @@ claude plugin update pete-loop@petemcpherson-claude-plugins
 
 Then run `/reload-plugins` to apply the update.
 
+### After updating the plugin — update your project files
+
+Updating the plugin updates the skills, but **not** the files already copied into your project (like `pete.sh`). To pull the latest scripts into an existing project, run:
+
+```shell
+/pete-loop:update
+```
+
+This updates `pete.sh`, `pete-once.sh`, and `pete/README.md`. It will ask before touching `PROMPT.md`, and never touches your spec, plan, progress, or human-todo files.
+
 ---
 
 ## What This Project Includes
 
 - A Claude Code plugin named `pete-loop`
-- Four plugin skills:
+- Five plugin skills:
   - `/pete-loop:setup` - scaffold the loop files into any project (first time)
+  - `/pete-loop:update` - update system scripts in an existing project after a plugin update
   - `/pete-loop:new-run` - scaffold a new Pete Run subfolder for a new feature, v2, etc.
   - `/pete-loop:spec` - guided session to produce a strong `spec.md`
   - `/pete-loop:plan` - generate phased, task-by-task `plan.md` from your spec
@@ -92,6 +103,7 @@ claude plugin install pete-loop@petemcpherson-claude-plugins
 After install, available commands are:
 
 - `/pete-loop:setup`
+- `/pete-loop:update`
 - `/pete-loop:new-run`
 - `/pete-loop:spec`
 - `/pete-loop:plan`

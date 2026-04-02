@@ -2,6 +2,7 @@
 
 # -----------------------------------------------
 # THE PETE LOOP
+# Plugin version: 2.2.2
 # Usage: ./pete/pete.sh <max_iterations> [subfolder]
 # Example: ./pete/pete.sh 15
 # Example: ./pete/pete.sh 15 v2
