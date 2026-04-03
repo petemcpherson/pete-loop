@@ -1,0 +1,5 @@
+# progress.txt
+# Pete Loop — Progress & Learnings Log
+# Agent appends dated entries here. Do not manually edit.
+
+[Project started]

@@ -1,0 +1,21 @@
+{
+  "name": "pete-loop",
+  "version": "2.2.5",
+  "description": "Autonomous build loop for Codex. Implements one task per fresh context window from a structured spec → plan → loop workflow.",
+  "author": "Pete McPherson",
+  "homepage": "https://github.com/petemcpherson/pete-loop",
+  "repository": "https://github.com/petemcpherson/pete-loop",
+  "license": "MIT",
+  "keywords": ["autonomous", "loop", "build", "agent", "workflow"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Pete Loop",
+    "shortDescription": "Autonomous build loop — one task per context window, AFK.",
+    "longDescription": "Pete Loop gives you a structured autonomous build workflow. Fill in a spec, generate a plan, then let the loop implement one task per fresh context window — committing as it goes. Built for users who want to go AFK while Codex builds.",
+    "developerName": "Pete McPherson",
+    "category": "developer-tools",
+    "capabilities": ["skills"],
+    "websiteURL": "https://github.com/petemcpherson/pete-loop",
+    "defaultPrompt": "Set up Pete Loop in my project"
+  }
+}
