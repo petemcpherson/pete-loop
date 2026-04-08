@@ -1,6 +1,6 @@
 # Pete Loop
 
-`pete-loop` is an autonomous build workflow for Claude Code that executes **one task per iteration** using a **fresh context window** each time.
+`pete-loop` is an autonomous build workflow for AI coding tools (Codex, Claude Code) that executes **one task per iteration** using a **fresh context window** each time.
 
 It is designed for vibe coders who want reliable, incremental progress while they are away from the keyboard ("go touch grass mode").
 
@@ -9,7 +9,11 @@ Full tutorial video here: https://youtu.be/nJscwBE0NA4
 
 ## Keeping Pete Loop Updated
 
-Pete Loop is actively maintained. Claude Code does **not** auto-update plugins by default — enable it so you always get the latest version:
+Pete Loop is actively maintained.
+
+### Claude Code plugin updates
+
+Claude Code does **not** auto-update plugins by default — enable it so you always get the latest version:
 
 **Via UI:** Run `/plugin` → **Marketplaces** tab → select `petemcpherson-claude-plugins` → enable **Auto-update**
 
@@ -19,6 +23,17 @@ claude plugin update pete-loop@petemcpherson-claude-plugins
 ```
 
 Then run `/reload-plugins` to apply the update.
+
+### Codex plugin updates
+
+Codex installation currently uses a local source path. Update by pulling the latest repo changes in your local plugin source directory, then restart Codex.
+
+Example:
+
+```bash
+cd ~/.codex/plugins/pete-loop-src
+git pull
+```
 
 ### After updating the plugin — update your project files
 
@@ -34,7 +49,8 @@ This updates `pete.sh`, `pete-once.sh`, and `pete/README.md`. It will ask before
 
 ## What This Project Includes
 
-- A Claude Code plugin named `pete-loop`
+- A Claude Code plugin in `plugin/`
+- A Codex plugin in `codex-plugin/`
 - Five plugin skills:
   - `/pete-loop:setup` - scaffold the loop files into any project (first time)
   - `/pete-loop:update` - update system scripts in an existing project after a plugin update
@@ -50,11 +66,14 @@ This updates `pete.sh`, `pete-once.sh`, and `pete/README.md`. It will ask before
 
 At runtime, the loop script repeatedly:
 
-1. Checks Claude Pro usage and stops if usage is too high
-2. Runs Claude with `pete/PROMPT.md` in headless mode
-3. Forces Claude to complete exactly one task
-4. Requires verification, updates `plan.md`, appends `progress.txt`, and commits
-5. Starts next iteration in a fresh context (new run)
+1. Runs the configured agent with `pete/PROMPT.md` in headless/non-interactive mode
+2. Forces exactly one task per iteration
+3. Requires verification, updates `plan.md`, appends `progress.txt`, and commits
+4. Starts next iteration in a fresh context (new run)
+
+Agent-specific note:
+- Claude Code plugin: includes a usage-threshold guard
+- Codex plugin: no usage API check is available; loop behavior is controlled by script flags
 
 This fresh-context-per-iteration model is the core design choice that keeps sessions focused and reduces drift.
 
@@ -62,17 +81,21 @@ This fresh-context-per-iteration model is the core design choice that keeps sess
 
 ## Prerequisites
 
-- Claude Code Pro installed and authenticated
-- Claude Code v1.0.33+ (plugins support)
 - Git repository for your project
+- For Claude Code usage:
+  - Claude Code Pro installed and authenticated
+  - Claude Code v1.0.33+ (plugins support)
+- For Codex usage:
+  - Codex CLI installed and authenticated
+  - Codex plugin support enabled in your environment
 
 ---
 
 ## Install The Pete Loop Plugin
 
-You can install through the plugin marketplace UI, or directly with commands.
+Use the install path for your agent.
 
-### Option A: Marketplace UI (recommended)
+### Claude Code - Option A: Marketplace UI (recommended)
 
 1. Open Claude Code
 2. Run `/plugin`
@@ -84,7 +107,7 @@ You can install through the plugin marketplace UI, or directly with commands.
    - **Project** (shared in this repo)
    - **Local** (only you, only this repo)
 
-### Option B: Install via commands
+### Claude Code - Option B: Install via commands
 
 Run these commands in Claude Code:
 
@@ -108,7 +131,7 @@ After install, available commands are:
 - `/pete-loop:spec`
 - `/pete-loop:plan`
 
-### Local development install (from this repo)
+### Claude Code - Local development install (from this repo)
 
 If you are developing this plugin locally:
 
@@ -117,6 +140,48 @@ claude --plugin-dir ./plugin
 ```
 
 Then run `/reload-plugins` after edits.
+
+### Codex - Local marketplace install (current path)
+
+Codex self-serve official publishing is still rolling out, so install from a local source path:
+
+1. Clone the repo to your local Codex plugin area:
+
+```bash
+git clone https://github.com/petemcpherson/pete-loop.git ~/.codex/plugins/pete-loop-src
+```
+
+2. Create or update `~/.agents/plugins/marketplace.json`:
+
+```json
+{
+  "name": "personal",
+  "interface": {
+    "displayName": "My Plugins"
+  },
+  "plugins": [
+    {
+      "name": "pete-loop",
+      "source": {
+        "source": "local",
+        "path": "./.codex/plugins/pete-loop-src/codex-plugin"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
+```
+
+Important path rules for `source.path`:
+- Must start with `./`
+- Must be relative to the **marketplace root** (for `~/.agents/plugins/marketplace.json`, use paths rooted at `~`, such as `./.codex/plugins/...`)
+- Must stay inside that root (do not use `..`)
+
+3. Restart Codex, open Plugins, select `My Plugins`, and install `pete-loop`.
 
 ---
 
@@ -255,7 +320,9 @@ The loop stops early if Claude returns:
 
 Plugins can execute code with your user privileges. Install only from trusted marketplaces.
 
-The default Pete Loop setup is intended to run with Claude sandbox mode enabled in `.claude/settings.json`.
+The default Pete Loop setup uses sandboxed execution:
+- Claude Code setup can create `.claude/settings.json`
+- Codex setup uses `--sandbox workspace-write --ask-for-approval never` flags in `pete.sh`
 
 ---
 
@@ -265,6 +332,7 @@ This repository has two main areas:
 
 - `version 2/` - reference docs and setup prompts for the current methodology
 - `plugin/` - the distributable Claude Code plugin (`pete-loop`)
+- `codex-plugin/` - the distributable Codex plugin (`pete-loop`)
 
 ---
 

@@ -400,7 +400,7 @@ The `update` skill has its own `templates/` directory that mirrors the files it 
 
 ### Phase 6: Repository & Distribution
 
-- [ ] **6.1** — Update root `README.md` to include Codex installation alongside Claude Code
+- [x] **6.1** — Update root `README.md` to include Codex installation alongside Claude Code
   - Side-by-side install instructions for both agents
   - Note any behavioral differences (no usage check, `AGENTS.md` vs `CLAUDE.md`)
 
@@ -460,7 +460,7 @@ To get updates later: `git pull` in `~/.codex/plugins/pete-loop-src`, then resta
 
 **What this phase requires:**
 
-- [ ] **7.1** — Write a clear **Codex install guide** block in the root `README.md` (covered in Phase 6.1), containing exactly the three steps above. This is the only thing users need; no scripts required.
+- [x] **7.1** — Write a clear **Codex install guide** block in the root `README.md` (covered in Phase 6.1), containing exactly the three steps above. This is the only thing users need; no scripts required.
 
 ---
 
