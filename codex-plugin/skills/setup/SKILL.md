@@ -213,11 +213,10 @@ for ((i=1; i<=MAX_ITERATIONS; i++)); do
   echo "🔄 Iteration $i of $MAX_ITERATIONS"
   echo "----------------------------------------"
 
-  codex exec \
+  codex --ask-for-approval never exec \
     --sandbox workspace-write \
-    --ask-for-approval never \
     --output-last-message "$LAST_MSG_FILE" \
-    "$(cat "$PROMPT_FILE")" || true
+    "$(cat "$PROMPT_FILE")" >/dev/null 2>&1 || true
 
   LAST_MSG=$(cat "$LAST_MSG_FILE" 2>/dev/null || echo "")
 
@@ -497,6 +496,6 @@ Run: `chmod +x pete/pete.sh pete/pete-once.sh`
 
 Tell the user:
 - ✅ Pete Loop scaffold created successfully
-- Pete Loop runs AFK using `--sandbox workspace-write --ask-for-approval never`. These flags are baked into `pete/pete.sh`. No project config file is needed.
+- Pete Loop runs AFK using `codex --ask-for-approval never exec --sandbox workspace-write ...`. These flags are baked into `pete/pete.sh`. No project config file is needed.
 - **First run:** open `pete/spec.md` and fill it in (or run `/pete-loop:spec`), then `/pete-loop:plan`, then `./pete/pete.sh 5`
 - **Future runs (new feature, v2, etc.):** run `/pete-loop:new-run` — it scaffolds a named subfolder with all files ready to go. Each isolated build phase is called a **Pete Run**.

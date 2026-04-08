@@ -250,6 +250,30 @@ For a **Pete Run** (new feature, v2, etc.), pass the subfolder name as the secon
 ./pete/pete.sh 15 v2
 ```
 
+### Codex output behavior (quiet by default)
+
+For Codex-generated `pete/pete.sh`, loop-run terminal output is hidden by default using shell redirection. This does not change model context; it only suppresses local terminal noise.
+
+If you want a local run log, keep it inside the project at `pete/logs/codex-run.log`:
+
+1. Create the log directory once:
+
+```bash
+mkdir -p pete/logs
+```
+
+2. In `pete/pete.sh`, change this:
+
+```bash
+"$(cat "$PROMPT_FILE")" >/dev/null 2>&1 || true
+```
+
+to this:
+
+```bash
+"$(cat "$PROMPT_FILE")" >>"$SCRIPT_DIR/logs/codex-run.log" 2>&1 || true
+```
+
 ---
 
 ## Core Files You Will Use
@@ -322,7 +346,7 @@ Plugins can execute code with your user privileges. Install only from trusted ma
 
 The default Pete Loop setup uses sandboxed execution:
 - Claude Code setup can create `.claude/settings.json`
-- Codex setup uses `--sandbox workspace-write --ask-for-approval never` flags in `pete.sh`
+- Codex setup uses `codex --ask-for-approval never exec --sandbox workspace-write ...` in `pete.sh`
 
 ---
 

@@ -50,11 +50,10 @@ for ((i=1; i<=MAX_ITERATIONS; i++)); do
   echo "🔄 Iteration $i of $MAX_ITERATIONS"
   echo "----------------------------------------"
 
-  codex exec \
+  codex --ask-for-approval never exec \
     --sandbox workspace-write \
-    --ask-for-approval never \
     --output-last-message "$LAST_MSG_FILE" \
-    "$(cat "$PROMPT_FILE")" || true
+    "$(cat "$PROMPT_FILE")" >/dev/null 2>&1 || true
 
   LAST_MSG=$(cat "$LAST_MSG_FILE" 2>/dev/null || echo "")
 
